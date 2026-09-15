@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+		<title>Admin — Submissions</title>
+
+		<style type="text/tailwindcss">
+			@theme {
+			}
+
+			@font-face {
+				font-family: "Karla";
+				src: url("./fonts/static/Karla-Regular.ttf");
+				font-weight: 400;
+				font-display: swap;
+			}
+		</style>
+	</head>
+	<body class="w-screen">
+		<div class="wrapper mx-auto max-w-360">
+			<main class="w-full p-6 flex flex-col gap-6">
+				<!-- Header -->
+				<div
+					class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+					<div>
+						<h1 class="text-3xl">Submissions</h1>
+						<p class="text-sm text-gray-500 mt-1">
+							Review and filter contact form enquiries.
+						</p>
+					</div>
+					<div class="text-sm text-gray-600">
+						Showing
+						<span class="font-semibold text-black">1–10</span>
+						of
+						<span class="font-semibold text-black"></span>
+						results
+					</div>
+				</div>
+
+				<!-- Filters -->
+				<section class="border-1 rounded-sm p-4 flex flex-col gap-4 bg-white">
+					<!-- Search row -->
+					<div class="flex flex-col md:flex-row gap-4">
+						<div class="flex-1 flex flex-col gap-2">
+							<label for="search" class="text-sm font-medium">Search</label>
+							<div class="flex items-center gap-2">
+								<!-- icon -->
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="w-4 h-4 text-gray-400 shrink-0"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+									stroke-width="2">
+									<circle cx="11" cy="11" r="7" />
+									<path d="m20 20-3.5-3.5" />
+								</svg>
+								<input
+									type="search"
+									id="search"
+									name="search"
+									placeholder="Search by name, email, or message…"
+									class="flex-1 border-1 rounded-sm h-12 px-3 outline-none" />
+							</div>
+						</div>
+
+						<!-- Sort -->
+						<div class="flex flex-col gap-2 md:w-56">
+							<label for="sort" class="text-sm font-medium">Sort by</label>
+							<select
+								id="sort"
+								name="sort"
+								class="border-1 rounded-sm h-12 px-3 outline-none bg-white">
+								<option value="newest">Newest first</option>
+								<option value="oldest">Oldest first</option>
+								<option value="name-asc">Name (A–Z)</option>
+								<option value="name-desc">Name (Z–A)</option>
+							</select>
+						</div>
+
+						<!-- Reset -->
+						<div class="flex flex-col gap-2 md:w-32 md:self-end">
+							<a
+								href="/admin"
+								class="h-12 flex items-center justify-center border-1 rounded-sm text-sm hover:bg-gray-50">
+								Reset
+							</a>
+						</div>
+					</div>
+
+					<hr class="border-gray-200" />
+
+					<!-- Query type filter chips -->
+					<div class="flex flex-col gap-2">
+						<span class="text-sm font-medium">Query type</span>
+						<div class="flex flex-wrap gap-2" data-filter-group="query-type">
+							<button
+								type="button"
+								data-filter="all"
+								class="filter-chip is-active px-4 py-2 rounded-sm border-1 text-sm">
+								All
+							</button>
+							<button
+								type="button"
+								data-filter="general-enquiry"
+								class="filter-chip px-4 py-2 rounded-sm border-1 text-sm">
+								General enquiry
+							</button>
+							<button
+								type="button"
+								data-filter="support-request"
+								class="filter-chip px-4 py-2 rounded-sm border-1 text-sm">
+								Support request
+							</button>
+						</div>
+					</div>
+				</section>
+
+				<!-- Results table -->
+				<section class="border-1 rounded-sm bg-white overflow-hidden">
+					<div class="overflow-x-auto">
+						<table class="w-full text-left">
+							<thead class="bg-gray-50 text-sm text-gray-600">
+								<tr>
+									<th class="px-4 py-3 font-medium">Name</th>
+									<th class="px-4 py-3 font-medium">Email</th>
+									<th class="px-4 py-3 font-medium">Query type</th>
+									<th class="px-4 py-3 font-medium">Message</th>
+									<th class="px-4 py-3 font-medium">Status</th>
+									<th class="px-4 py-3 font-medium">Received</th>
+									<th class="px-4 py-3 font-medium text-right">Actions</th>
+								</tr>
+							</thead>
+
+							<tbody class="divide-y divide-gray-200">
+								<!--	<tr class="hover:bg-gray-50">
+									<td class="px-4 py-4 font-medium">Jane Doe</td>
+									<td class="px-4 py-4 text-gray-600">
+										jane@example.com
+									</td>
+									<td class="px-4 py-4">
+										<span
+											class="inline-flex items-center px-2 py-1 rounded-sm text-xs border-1 bg-gray-100 text-gray-700">
+											General enquiry
+										</span>
+									</td>
+									<td
+										class="px-4 py-4 text-gray-600 max-w-xs truncate">
+										Hi, I'd like to know more about your services…
+									</td>
+									<td class="px-4 py-4">
+										<span
+											class="inline-flex items-center gap-1 text-xs">
+											<span
+												class="w-2 h-2 rounded-full bg-blue-500"></span>
+											Unread
+										</span>
+									</td>
+									<td class="px-4 py-4 text-gray-600 text-sm">
+										12 Mar 2025, 09:14
+									</td>
+									<td class="px-4 py-4 text-right">
+										<a
+											href="/admin/submissions/1"
+											class="text-sm underline underline-offset-2">
+											View
+										</a>
+									</td>
+								</tr> -->
+							</tbody>
+						</table>
+					</div>
+
+					<!-- Empty state (hidden by default — show when filters yield no results) -->
+					<div
+						id="empty-state"
+						class="hidden flex-col items-center justify-center text-center p-12 gap-2">
+						<p class="text-lg font-medium">No submissions found</p>
+						<p class="text-sm text-gray-500">
+							Try adjusting your search or clearing the filters.
+						</p>
+						<a href="/admin" class="mt-2 text-sm underline underline-offset-2">
+							Clear filters
+						</a>
+					</div>
+				</section>
+			</main>
+		</div>
+
+		<!-- Filter chip visual state only. Remove when you wire up real filtering server-side. -->
+		<script type="module">
+			document.querySelectorAll("[data-filter-group]").forEach((group) => {
+				group.addEventListener("click", (e) => {
+					const btn = e.target.closest(".filter-chip");
+					if (!btn) return;
+					group
+						.querySelectorAll(".filter-chip")
+						.forEach((c) => c.classList.remove("is-active"));
+					btn.classList.add("is-active");
+				});
+			});
+
+			const tbody = document.querySelector("tbody")
+
+			let USERS;
+			async function loadUsers() {
+				const response = await fetch("/list-users");
+				const data = await response.json()
+				return data;
+			}
+
+			USERS = await loadUsers()
+			console.log(USERS);
+
+			USERS.map(user => {
+				const html = `
+				<tr class="hover:bg-gray-50">
+					<td class="px-4 py-4 font-medium">${user.first_name} ${user.last_name}</td>
+					<td class="px-4 py-4 text-gray-600">
+						${user.email}
+					</td>
+					<td class="px-4 py-4">
+						<span
+							class="inline-flex items-center px-2 py-1 rounded-sm text-xs border-1 bg-gray-100 text-gray-700">
+							${user.query_type}
+						</span>
+					</td>
+					<td
+						class="px-4 py-4 text-gray-600 max-w-xs truncate">
+						${user.message}
+					</td>
+					<td class="px-4 py-4">
+						<span
+							class="inline-flex items-center gap-1 text-xs">
+							<span
+								class="w-2 h-2 rounded-full bg-blue-500"></span>
+							Unread
+						</span>
+					</td>
+					<td class="px-4 py-4 text-gray-600 text-sm">
+						12 Mar 2025, 09:14
+					</td>
+					<td class="px-4 py-4 text-right">
+						<a
+							href="/admin/submissions/1"
+							class="text-sm underline underline-offset-2">
+							View
+						</a>
+					</td>
+				</tr>`
+				tbody.insertAdjacentHTML("beforeend", html);
+			})
+		</script>
+
+		<!-- Active chip style -->
+		<style>
+			.filter-chip {
+				background: #fff;
+				color: #111;
+				transition:
+					background-color 0.15s ease,
+					color 0.15s ease;
+			}
+			.filter-chip:hover {
+				background: #f9fafb;
+			}
+			.filter-chip.is-active {
+				background: #111;
+				color: #fff;
+				border-color: #111;
+			}
+		</style>
+	</body>
+</html>

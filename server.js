@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
+app.get("", (req, res) => {
 	res.sendFile(path.join(__dirname, "pages/index.html"));
 });
 
@@ -45,16 +45,24 @@ app.post("/", (req, res) => {
 	}
 });
 
-app.get("/check-users", (req, res) => {
-    try {
-        const users = db.prepare("SELECT * FROM users").all();
-        res.json(users); 
-    } catch (e) {
-        res.status(500).send(e.message);
-    }
+app.get("/list-users", (req, res) => {
+	try {
+		const users = db.prepare(`
+			SELECT * FROM users
+			`).all()
+		
+		res.json(users);
+
+	} catch (e) {
+		console.error("database error", e);
+		res.status(500).send(e.message);
+	}
 });
 
+app.get("/admin", (req, res) => {
+	res.sendFile(path.join(__dirname, "pages/admin.html"));
+});
 
-app.listen(3000, () => {
-	console.log("app is now listening on port 3000");
+app.listen(6969, () => {
+	console.log("app is now listening on port 6969");
 });

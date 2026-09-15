@@ -8,7 +8,17 @@
 
 		<style type="text/tailwindcss">
 			@theme {
+                 
+                
 			}
+
+            @font-face {
+                font-family: "Karla";
+                src: url("./fonts/static/Karla-Regular.ttf");
+                font-weight: 400;
+                font-display: swap;
+            }
+
 		</style>
 	</head>
 	<body class="w-screen">
@@ -17,7 +27,7 @@
 				<h1 class="text-3xl">Contact Us</h1>
 
 				<form action="/" method="POST" class="flex flex-col gap-6">
-					<div class="flex gap-4">
+					<div class="flex flex-col md:flex-row gap-4">
 						<div class="flex-1 flex flex-col gap-2">
 							<label for="first-name" class="text-xl">First Name</label>
 							<input
@@ -51,9 +61,9 @@
 
 					<div class="flex flex-col gap-2">
 						<label for="query-type">Query Type</label>
-						<div class="flex gap-4">
+						<div class="flex flex-col md:flex-row gap-4">
 							<div
-								class="flex-1 flex items-center px-4 gap-2 border-1 rounded-sm h-12">
+								class="flex-1 flex items-center p-4 px-4 gap-2 border-1 rounded-sm h-12">
 								<input
 									type="radio"
 									name="query-type"
@@ -65,7 +75,7 @@
 								>
 							</div>
 							<div
-								class="flex-1 flex items-center px-4 gap-2 border-1 rounded-sm h-12">
+								class="flex-1 flex items-center p-4 px-4 gap-2 border-1 rounded-sm h-12">
 								<input
 									type="radio"
 									name="query-type"
@@ -96,8 +106,8 @@
 							>I consent to being consented by the team.</label
 						>
 					</div>
-					<div>
-						<input type="submit" value="Submit" />
+					<div class="flex">
+						<input type="submit" value="Submit" class="flex-1 bg-green-600 py-4 cursor-pointer" />
 					</div>
 				</form>
 			</main>
