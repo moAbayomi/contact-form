@@ -191,31 +191,19 @@
 
 		<!-- Filter chip visual state only. Remove when you wire up real filtering server-side. -->
 		<script type="module">
-			document.querySelectorAll("[data-filter-group]").forEach((group) => {
-				group.addEventListener("click", (e) => {
-					const btn = e.target.closest(".filter-chip");
-					if (!btn) return;
-					group
-						.querySelectorAll(".filter-chip")
-						.forEach((c) => c.classList.remove("is-active"));
-					btn.classList.add("is-active");
-				});
-			});
-
-			const tbody = document.querySelector("tbody")
+			const tbody = document.querySelector("tbody");
 
 			let USERS;
 			async function loadUsers() {
 				const response = await fetch("/list-users");
-				const data = await response.json()
+				const data = await response.json();
 				return data;
 			}
 
-			USERS = await loadUsers()
-			console.log(USERS);
-
-			USERS.map(user => {
-				const html = `
+			function render(users = USERS) {
+				tbody.innerHTML = "";
+				users.map((user) => {
+					const html = `
 				<tr class="hover:bg-gray-50">
 					<td class="px-4 py-4 font-medium">${user.first_name} ${user.last_name}</td>
 					<td class="px-4 py-4 text-gray-600">
@@ -249,9 +237,40 @@
 							View
 						</a>
 					</td>
-				</tr>`
-				tbody.insertAdjacentHTML("beforeend", html);
-			})
+				</tr>`;
+					tbody.insertAdjacentHTML("beforeend", html);
+				});
+			}
+
+			USERS = await loadUsers();
+			render();
+
+			document.querySelectorAll("[data-filter-group]").forEach((group) => {
+				group.addEventListener("click", (e) => {
+					const btn = e.target.closest(".filter-chip");
+					if (!btn) return;
+					group
+						.querySelectorAll(".filter-chip")
+						.forEach((c) => c.classList.remove("is-active"));
+					btn.classList.add("is-active");
+					console.log(btn.dataset.filter);
+					const queryFilter = btn.dataset.filter;
+
+					if (queryFilter == "general-enquiry") {
+						const users = USERS.filter(
+							(user) => user.query_type == "general-enquiry",
+						);
+						render(users);
+					} else if (queryFilter == "support-request") {
+						const users = USERS.filter(
+							(user) => user.query_type == "support-request",
+						);
+						render(users);
+					} else {
+						render();
+					}
+				});
+			});
 		</script>
 
 		<!-- Active chip style -->
